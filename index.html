@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM System</title>
+</head>
+<body>
+    
+
+    <script>
+        let bakiye = 5000;
+        let dogruPin = "1234";
+        let islemler = [];
+
+        function girisYap() {
+            for(let i = 1; i <= 3; i++) {
+                let Pin = prompt("ATMye hoş geldiniz\n" + "PIN kodunu giriniz:")
+                if(Pin === dogruPin) {
+                    alert("Giriş başarılı");
+                    menu();
+                    return;
+                }
+                else {
+                    alert("Pin yanlış! \n" + "Kalan Hak: " + (3 - i));
+
+                }
+            }
+            alert("3 kez yanlış pin girildi. kart bloke edildi!");
+
+        }
+
+        function menu() {
+            for(let i = 0; i < 20; i++) {
+                let secim = prompt("ATM menu\n\n" + "1 - Bakiye görüntüle\n" + "2 - para yatır\n" + "3- para çek \n" + "4 - işlem geçmişi \n" + "5 - çıkış\n\n" );
+                if(secim == "1") {
+                    bakiyeGoster()
+                }
+                else if(secim == "2") {
+                    paraYatir()
+                }
+                else if(secim == "3") {
+                    paraCek()
+                }
+                else if(secim == "4") {
+                    islemGecmisi()
+                }
+                else if(secim == "5") {
+                    alert("Çıkı yapıldı\n iyi günler")
+                    return;
+                }
+                else {
+                    alert("Geçersiz seçim!");
+                }
+            }
+        }
+
+        function bakiyeGoster() {
+            alert("mevcut bakiyeniz: " + bakiye + " ₺");
+        }
+
+        function paraYatir() {
+            let miktar = Number(prompt("Yatırmak İstediğiniz miktarı giriniz:"));
+            if(miktar > 0) {
+                bakiye = bakiye + miktar;
+                islemler.push("Para Yatırıldı: +" + miktar + "₺")
+                alert(miktar + "₺ Yatırıldı.\n" + "Yeni bakiye: " + bakiye + " ₺");
+
+            }
+            else {
+                alert("geçersiz miktar");
+            }
+        }
+
+        function paraCek() {
+            let miktar = Number(prompt("Çekmek İstediğiniz miktarı giriniz:"));
+            if(miktar <= 0) {
+                alert("geçersiz miktar");
+            }
+            else if(miktar > bakiye) {
+                alert(
+                    "yetersiz bakiye\n" + "Bakiyeniz: " + bakiye + "₺"
+                )
+            }
+            else {
+                bakiye = bakiye - miktar;
+                islemler.push("para çekildi: -" + miktar + " ₺");
+                alert(miktar + " ₺ çekildi.\n" + "Yeni Bakiye:" + bakiye + " ₺");
+            }
+        }
+
+        function islemGecmisi() {
+            if(islemler.length == 0) {
+                alert("Henüz bir işlem yapılmadı!")
+                return;
+            }
+
+            let mesaj = "İŞLEM GEÇMİŞİ\n\n";
+            for(let i = 0; i < islemler.length; i++) {
+                mesaj = mesaj + (i + 1) + ". " + islemler[i] + "\n"; 
+            }
+            alert(mesaj);
+        }
+
+        girisYap();
+    </script>
+</body>
+</html>
